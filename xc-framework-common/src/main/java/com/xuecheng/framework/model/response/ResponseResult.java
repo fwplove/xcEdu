@@ -28,6 +28,7 @@ public class ResponseResult implements Response {
         this.success = resultCode.success();
         this.code = resultCode.code();
         this.message = resultCode.message();
+        
     }
 
     public static ResponseResult SUCCESS(){
