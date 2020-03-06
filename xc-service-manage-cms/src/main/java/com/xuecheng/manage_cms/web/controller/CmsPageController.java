@@ -3,6 +3,7 @@ package com.xuecheng.manage_cms.web.controller;
 import com.xuecheng.api.CmsPageControllerApi;
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
+import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
@@ -36,4 +37,21 @@ public class CmsPageController implements CmsPageControllerApi {
         return pageService.findList(page, size, queryPageRequest);
     }
 
+    @Override
+    @PostMapping("/add")
+    public CmsPageResult add(@RequestBody CmsPage cmsPage) {
+        return pageService.add(cmsPage);
+    }
+
+    @Override
+    @PutMapping("/get/{id}")
+    public CmsPage findById(@PathVariable("id")String id) {
+        return pageService.findById(id);
+    }
+
+    @Override
+    @PostMapping("/edit/{id}")
+    public CmsPageResult edit(@PathVariable("id") String id,@RequestBody CmsPage cmsPage) {
+        return pageService.edit(id,cmsPageD);
+    }
 }

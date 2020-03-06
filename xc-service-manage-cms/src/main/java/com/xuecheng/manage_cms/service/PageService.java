@@ -2,6 +2,7 @@ package com.xuecheng.manage_cms.service;
 
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
+import com.xuecheng.framework.domain.cms.response.CmsPageResult;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -58,5 +59,44 @@ public class PageService {
         queryResult.setTotal(all.getTotalElements());
         //响应结果
         return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+    }
+
+
+    /**
+     * 添加页面
+     * @param cmsPage
+     * @return
+     */
+    public CmsPageResult add(CmsPage cmsPage){
+        //校验页面是否存在，根据页面名称、站点Id、页面webpath查询
+        CmsPage cmsPage1 = cmsPageRepository.findByPageNameAndSiteIdAndPageWebPath(cmsPage.getPageName(), cmsPage.getSiteId(), cmsPage.getPageWebPath());
+        if(cmsPage1==null){
+            cmsPage.setPageId(null);//添加页面主键由spring data 自动生成
+            cmsPageRepository.save(cmsPage);
+            //返回结果
+            CmsPageResult cmsPageResult = new CmsPageResult(CommonCode.SUCCESS,cmsPage);
+            return cmsPageResult;
+        }
+        return new CmsPageResult(CommonCode.FAIL,null);
+    }
+
+    /**
+     * 查找页面
+     * @return
+     * @param id
+     */
+    public CmsPage findById(String id) {
+        Optional<CmsPage> byId = cmsPageRepository.findById(id);
+    }
+
+    /**
+     * 修改页面
+     * @param id
+     * @param cmsPage
+     * @return
+     */
+    public CmsPageResult edit(String id, CmsPage cmsPage) {
+
+        return null;
     }
 }
